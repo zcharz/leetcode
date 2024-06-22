@@ -4,14 +4,14 @@ class Solution:
         lmax, rmax = height[l], height[r]
         total = 0
 
-        while l<=r:
+        while l<r:
             if lmax<=rmax: 
                 l+=1
-                total+=max(min(lmax, rmax)-height[l],0)
+                total+=max(lmax-height[l],0)
                 lmax = max(lmax, height[l])
             else:
                 r-=1
-                total+=max(min(lmax, rmax)-height[r], 0)
+                total+=max(rmax-height[r], 0)
                 rmax = max(rmax, height[r])
 
         return total
@@ -19,5 +19,5 @@ class Solution:
 
 height = [0,1,0,2,1,0,1,3,2,1,2,1]
 # expected output: 6
-run = Solution()
-print(run.trap(height))
+sol = Solution()
+print(sol.trap(height))

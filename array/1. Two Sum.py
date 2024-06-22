@@ -1,10 +1,15 @@
+class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        seen = {}
 
-# O(n) time and space solution with dict
-def twoSum(nums: list[int], target: int) -> list[int]:
-    prevMap = {}  # val -> index
+        for index, number in enumerate(nums):
+            complement = target-number
+            if complement in seen:
+                return [seen[complement], index]
+            seen[number] = index
 
-    for index, element in enumerate(nums):
-        diff = target - element
-        if diff in prevMap:
-            return [prevMap[diff], index]
-        prevMap[element] = index
+
+sol = Solution()
+nums = [2,7,11,15]
+target = 9
+print(sol.twoSum(nums, target))
