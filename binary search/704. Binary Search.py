@@ -1,22 +1,49 @@
-def search(nums: list[int], target: int) -> int:
-    start, end = 0, len(nums)-1
+class Solution:
+    def search(self, nums: list[int], target: int) -> int:
+        # step method
+        # finds the spot where values greater than or equal to start appearing
+        # if the target exists, it will necessarily be at the first spot
+        # which is where l == r are at after the iteration
+        l, r = 0, len(nums)-1
+        while l<r:
+            mid = l+(r-l)//2
+            if nums[mid]<target:
+                l = mid+1
+            else:
+                r = mid
+        return l if nums[l] == target else -1
+    
+        # normal method (checking target)
+        # l<r needs to start at len(nums)
+        # in case all numbers are below target
+        l, r = 0, len(nums)
+        while l<r:
+            mid = l+(r-l)//2
+            if nums[mid]==target:
+                return mid
+            elif nums[mid]<target:
+                l = mid+1
+            else:
+                r = mid #(r = mid-1 DOES NOT WORK)
+        return -1
 
-    while start<=end:
-        index = (start+end)//2
-        # index = start+((end-start) // 2)
+        # l<=r needs r to start at len(nums)-1
+        # in case target is at the end
+        l, r = 0, len(nums)-1
+        while l<=r:
+            mid = l+(r-l)//2
+            if nums[mid]==target:
+                return mid
+            elif nums[mid]<target:
+                l = mid+1
+            else:
+                r = mid-1   #(r = mid DOES NOT WORK)
+        return -1
 
-        element = nums[index]
-
-        if target > element: start = index+1
-        elif target < element: end = index-1
-        else: return index
-    return -1
 
 
+sol = Solution()
 
-
-test = [-1,0,3,5,9,12]
+nums = [-1, 0, 3, 5, 9, 12]
 target = 9
-
-print(search(test, target))
-
+print(sol.search(nums, target))

@@ -1,35 +1,47 @@
-# solution must be O(log(m*n)) = O( log n + log m)
+# solution needs to be O(log(m*n))
 
-def searchMatrix(matrix: list[list[int]], target: int) -> bool:
+class Solution:
+    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
+        l, r = 0, len(matrix)-1
+        row = 0
+        while l<=r:
+            mid = (l+r)//2
+            # target is necessarily between the current row range,
+            # below, or above
+            if matrix[mid][0]<=target<=matrix[mid][len(matrix[0])-1]:
+                row = mid
+                break
+            elif matrix[mid][0]>target:
+                r=mid-1
+            else: #matrix[mid][len(matrix[0])-1] < target
+                l=mid+1
+
+        l, r = 0, len(matrix[0])-1
+        while l<r: 
+            mid = (l+r)//2
+            if matrix[row][mid]<target:
+                l = mid+1
+            else:
+                r = mid
+        return matrix[row][l]==target
     
-    # row
-    # O(log m) 
-    while len(matrix)>1:
-        m = len(matrix)//2
 
-        if matrix[m][0]>target:
-            matrix = matrix[:m]
-        else:
-            matrix = matrix[m:]
-    
-    matrix = matrix[0] # only 1 row, N columns left
-
-    # O(log n)
-    while len(matrix)>1:
-        n = len(matrix)//2
-
-        if matrix[n]>target:
-            matrix = matrix[:n]
-        elif matrix[n] == target:
-            return True
-        else:
-            matrix = matrix[n:]
-    
-    if matrix[0] == target:
-        return True
-    return False
+sol = Solution()
 
 
-test = [[1],[3]]
 
-print(searchMatrix(test, 3))
+matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]]
+target = 13
+print(sol.searchMatrix(matrix, target))
+
+matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]]
+target = 3
+print(sol.searchMatrix(matrix, target))
+
+matrix = [[1],[3]]
+target = 3
+print(sol.searchMatrix(matrix, target))
+
+matrix = [[1],[3]]
+target = 5
+print(sol.searchMatrix(matrix, target))

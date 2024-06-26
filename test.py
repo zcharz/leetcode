@@ -2,13 +2,9 @@ from linkedlist import *
 from binarytree import *
 import collections
 
+test = tuple(0 for i in range(3))
+print(test)
 
-x = 0
-
-y = 1
-
-
-i = x if x else y
-
-print(i)
+test[0] = 6
+print(test)
 

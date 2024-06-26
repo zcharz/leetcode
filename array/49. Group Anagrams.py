@@ -1,24 +1,34 @@
-def groupAnagrams(strs: list[str]) -> list[list[str]]:
-    keylist = set([''.join(sorted(s)) for s in strs])
-    # O(m*nlogn)
-    # m = length of strs
-    # n = average length of string
+class Solution:
+    def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
+        # O(n) memory
+        mapping = dict()
 
-    anagram = {key: list() for key in keylist}
+        # O(n) time
+        for s in strs:
+            # O(m log m) time
+            # O(m) memory per key
+            # key = ''.join(sorted(s))
 
-    for s in strs:
-        for key in anagram:
-            if ''.join(sorted(s)) == key:
-                anagram[key].append(s)
+            # O(m) time
+            # O(1) memory per key (always length 26)
+            key = [0] * 26
+            for c in s:
+                key[ord(c)-ord('a')]+=1
+            key = tuple(key)
 
-    ret = [val for val in anagram.values()]
-    return ret
+            # group should point to the same list, if it exists
+            # however if it doesn't assign it
+            # no extra memory
+            group = mapping.get(key, [])
+            group.append(s)
+            mapping[key] = group
 
-    # O(m*n) solution:
-    # for each string create a list that counts how many of each letter
-    # use each different count list as a key for a dict
-    # each string with same count list gets put into the same list in the dict
-    # return all values in dict (all groups of strings)
+            # could otherwise use defaultdict(list)
+            # mapping[key].append(s)
 
+        return list(mapping.values())
+
+
+sol = Solution()
 strs = ["eat","tea","tan","ate","nat","bat"]
-print(groupAnagrams(strs))
+print(sol.groupAnagrams(strs))

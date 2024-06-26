@@ -1,29 +1,48 @@
-from collections import defaultdict
+import heapq
 
-def topKFrequent(nums: list[int], k: int) -> list[int]:
+class Solution:
+    def topKFrequent(self, nums: list[int], k: int) -> list[int]:
+        count = dict()
 
-    count = defaultdict(int)
-    for num in nums:
-        count[num]+=1
-    #O(n) count operation
+        # O(n) time
+        for i in nums:
+            count[i] = count.get(i, 0)+1
 
-    # same as above without using defaultdict
-    # count = {}
-    # for n in nums:
-    #     count[n] = 1 + count.get(n, 0)
+        # BUCKET SORT SOLUTION -> O(n)
+        # making bucket -> O(n)
+        # finding top k -> O(n)
+        bucket = [[] for i in range(len(nums))]
+        for key, val in count.items():
+            bucket[val-1].append(key)
 
+        ret = []
+        for i in range(len(nums)-1, -1, -1):
+            ret.extend(bucket[i])
+            if len(ret) ==k:
+                return  ret
+        
 
-    nums_count = sorted(list(count.items()), key= lambda x: x[1], reverse=True)
-    #O(nlogn) sorting operation
+        # HEAP SOLUTION -> O(n+klogn)
+        # heapify -> O(n) time
+        # heappop -> O(logn) time, called k times
+        heapcount = [(-val, key) for key, val in count.items()]
+        heapq.heapify(heapcount)
+        ret = []
+        for i in range(k):
+            ret.append(heapq.heappop(heapcount)[1])
+        return ret
 
-    ret = []
-    for i in range(k):
-        ret.append(nums_count[i][0])
-    return ret
+        # SORTING SOLUTION -> O(nlogn)
+        sortcount = sorted(count.items(), key=lambda x: x[1], reverse=True)
+        return [x[0] for x in sortcount][:k]
     
-    #doable in O(n) with bucket sort
 
+sol = Solution()
 
 nums = [1,1,1,2,2,3]
 k = 2
-print(topKFrequent(nums, k))
+print(sol.topKFrequent(nums, k))
+
+nums = [1]
+k = 1
+print(sol.topKFrequent(nums, k))
