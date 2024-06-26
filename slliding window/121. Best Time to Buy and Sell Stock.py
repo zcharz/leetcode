@@ -1,21 +1,17 @@
-def maxProfit(prices: list[int]) -> int:
-    l, r = 0, 1
-    maxP = 0
+class Solution:
+    def maxProfit(self, prices: list[int]) -> int:
+        l, r = 0, 1
+        profit = 0
 
-    while r<len(prices):
-        #profitable
-        if prices[r]>prices[l]:
-            profit = prices[r]-prices[l]
-            maxP = max(profit, maxP)
+        while r<len(prices):
+            if prices[l]<prices[r]:
+                profit = max(profit, prices[r]-prices[l])
+            else:
+                l=r
+            r+=1
 
-        #new low    
-        else:
-            l = r
-        r+=1
-        # r = l + 1
+        return profit
 
-    return maxP
-
-
+sol = Solution()
 prices = [7,1,5,3,6,4]
-print(maxProfit(prices))
+print(sol.maxProfit(prices))
