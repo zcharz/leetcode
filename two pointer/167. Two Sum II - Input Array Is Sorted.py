@@ -1,23 +1,18 @@
-# still a bruteforce solution -> O(N*N)
-# accounts for duplicates
-def twoSum(numbers: list[int], target: int) -> list[int]:
-    for i in range(len(numbers)-1):
-        if i>0 and numbers[i] == numbers[i-1]:
-            continue
-        for j in range(i+1, len(numbers)):
-            if numbers[i]+numbers[j] == target:
-                return [i+1, j+1]
+class Solution:
+    def twoSum(self, numbers: list[int], target: int) -> list[int]:
+        l, r = 0, len(numbers)-1
+        while l<r:
+            if numbers[l]+numbers[r]==target:
+                return [l+1,r+1]
+            elif numbers[l]+numbers[r]>target:
+                r = r-1
+            else:
+                l = l+1
+        return []
             
 
-# two pointer solution
-# O(N)
-def twoSum(numbers: list[int], target: int) -> list[int]:
-    p1, p2 = 0, len(numbers)-1
-    while True:
-        c = numbers[p1]+numbers[p2]
-        if  c == target:
-            return  [p1+1, p2+1]
-        if c> target:
-            p2-=1
-        else:
-            p1+=1
+sol = Solution()
+
+numbers = [2,7,11,15]
+target = 9
+print(sol.twoSum(numbers, target))
