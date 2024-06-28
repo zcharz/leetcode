@@ -10,7 +10,7 @@ class TreeNode:
 
 
 # doesnt work with skipped Nones
-def to_binary_tree(items: list[int]) -> TreeNode:
+def toBinaryTree(items: list[int]) -> TreeNode:
     """Create BT from list of values."""
     n = len(items)
     if n == 0:
@@ -29,7 +29,7 @@ def to_binary_tree(items: list[int]) -> TreeNode:
     return inner()
 
 
-def tree_to_list(root):
+def toList(root):
     ret = []
     queue = deque()
     queue.append(root)

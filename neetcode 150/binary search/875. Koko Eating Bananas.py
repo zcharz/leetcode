@@ -6,13 +6,18 @@ class Solution:
     def minEatingSpeed(self, piles: list[int], h: int) -> int:
         # determines if bananas can be finished 
         # given current eating speed (curr)
+        # takes O(n) time
         def canFinish(k):
             time = 0
             for banana in piles:
                 time+=math.ceil(banana/k)
             return time<=h
 
+        # finding max -> O(n) time
         l, r = 1, max(piles)
+
+        # binary search O(n*logm) time
+        # m = max(piles)
         while l<r:
             mid = (l+r)//2
             if not canFinish(mid): # if nums[mid] < target: 
