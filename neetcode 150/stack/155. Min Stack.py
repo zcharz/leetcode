@@ -1,44 +1,3 @@
-# this could be more memory efficient
-# using list of pairs or 2 lists
-# for corresponding values and mins
-# rather than linked list
-
-
-
-class ListNode:
-    def __init__(self, val=0, min=0, next=None):
-        self.val = val
-        self.min = min
-        self.next = next
-
-
-class MinStack:
-    def __init__(self):
-        self.min_ind = None
-        self.head = None
-        self.length = 0
-
-    def push(self, val: int) -> None:
-        if self.head != None:
-            node = ListNode(val, min(val, self.head.min), self.head)
-        else:
-            node = ListNode(val, val, self.head)
-        self.head = node
-        self.length+=1
-
-    def pop(self) -> None:
-        self.length-=1
-        self.head = self.head.next
-        
-    def top(self) -> int:
-        return self.head.val
-
-    def getMin(self) -> int:
-        return self.head.min
-        
-
-
-
 # Your MinStack object will be instantiated and called as such:
 # obj = MinStack()
 # obj.push(val)
@@ -46,11 +5,43 @@ class MinStack:
 # param_3 = obj.top()
 # param_4 = obj.getMin()
 
+# each function needs to be O(1) time
+
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.mins = []
+
+    def push(self, val: int) -> None:
+        if len(self.stack):
+            # self.stack.append((val, min(self.stack[-1][1], val)))
+            self.stack.append(val)
+            self.mins.append(min(self.mins[-1], val))
+        else:
+            # self.stack.append((val, val))
+            self.stack.append(val)
+            self.mins.append(val)
+
+    def pop(self) -> None:
+        self.stack.pop()
+        self.mins.pop()
+
+    def top(self) -> int:
+        # return self.stack[-1][0]
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        # return self.stack[-1][1]
+        return self.mins[-1]
+
 stack = MinStack()
+# stack.push(6)
+# for i in range(5):
+#     stack.push(i)
+# stack.push(-1)
+# stack.push(4)
 
-test = [1,2,3,4,5]
-for i in test:
-    stack.push(i)
-
-for i in range(5):
-    stack.push
+stack.push(0)
+stack.push(1)
+stack.push(0)
+print(stack.stack)
