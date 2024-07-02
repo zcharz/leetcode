@@ -3,6 +3,4 @@
 import collections
 
 
-x = 1
-
-if x: print(1)
+print(6/-132)

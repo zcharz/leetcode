@@ -1,42 +1,23 @@
-def findMin(nums: list[int]) -> int:
-    # find min value in log N time
-    l, r = 0, len(nums)-1
+class Solution:
+    def findMin(self, nums: list[int]) -> int:
+        l, r = 0, len(nums)-1
 
-    def bruteforce(l, mid, r):
-    # brute force at len 3 or less
-        n1, n2, n3 = nums[l], nums[mid], nums[r]
-
-        if r-l == 0:
-            return r
-
-        # len 2
-        if r-l==1: 
-            if n1 < n3:
-                return l
+        while l<r:
+            mid = (l+r)//2
+            if nums[mid]>nums[r]:
+                l = mid+1
             else:
-                return r
-            
-        # len 3
-        if n1>n2:
-            return mid
-        elif n2>n3:
-            return  r
-        else:
-            return l
+                r = mid
+        return nums[l]
 
-    while l<=r:
-        mid = (l+r)//2
-        n1, n2, n3 = nums[l], nums[mid], nums[r]
 
-        if r-l<3:
-            return nums[bruteforce(l, mid, r)]
+sol = Solution()
 
-        if n1<n2<n3:
-            # done
-            return nums[l]
-        elif n1>n2:
-            # pivot is betweenj l and mid
-            r = mid
-        elif n2>n3:
-            # pivot is between mid and r
-            l = mid
+nums = [3,4,5,1,2]
+print(sol.findMin(nums))
+
+nums = [4,5,6,7,0,1,2]
+print(sol.findMin(nums))
+
+nums = [11,13,15,17]
+print(sol.findMin(nums))
