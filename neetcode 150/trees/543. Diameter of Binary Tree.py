@@ -1,46 +1,37 @@
 from binarytree import * 
 
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        # using global variable
+        diameter = [0]
 
-def diameterOfBinaryTree(root: TreeNode) -> int:
-    def recur(root) -> (int, int):
-        # height, furthest total
+        def helper(node):
+            if not node:
+                return 0
+            left_height = helper(node.left)
+            right_height = helper(node.right)
+            diameter[0] = max(left_height+right_height, diameter[0])
+            return max(left_height, right_height)+1
 
-        if not root:
-            #if root == None
-            return 0, 0
-
-        left = recur(root.left)
-        right = recur(root.right)
-
-        height = max(left[0], right[0])+1
-        total = left[0]+right[0]
-
-        return (height, max(total, left[1], right[1]))
-
-    return recur(root)[1]
+        helper(root)
+        return diameter[0]
 
 
+        # passing up current max diameter
+        def helper(node):
+            if not node: 
+                return 0, 0
 
-# neetcode solution
-# modifying max from recursive function to original call
+            left = helper(node.left)
+            right = helper(node.right)
+            return max(left[0], right[0])+1, max(left[1], right[1], left[0]+right[0])
 
+        return helper(root)[1]
 
-def diameterOfBinaryTree(root: TreeNode) -> int:
-    res = 0
+sol = Solution()
 
-    def dfs(root):
-        nonlocal res
+root = toBinaryTree([1,2,3,4,5])
+print(sol.diameterOfBinaryTree(root))
 
-        if not root:
-            return 0
-        left = dfs(root.left)
-        right = dfs(root.right)
-
-        # update new max diameter
-        res = max(res, left + right)
-
-        return 1 + max(left, right)
-
-    dfs(root)
-    # dfs doesn't return but updates value instead
-    return res
+root = toBinaryTree([1,2])
+print(sol.diameterOfBinaryTree(root))

@@ -5,16 +5,16 @@ class ListNode:
         self.next = next
 
 
-def LL_to_list(node):
+def toList(node):
     if node==None:
         return []
     
     l = [node.val]
-    l.extend(LL_to_list(node.next))
+    l.extend(toList(node.next))
     return l
 
 
-def makeLL(l: list) -> ListNode:
+def toLinkedList(l: list) -> ListNode:
     head = ListNode()
     node = head
     for e in l:
