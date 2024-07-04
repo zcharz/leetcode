@@ -1,68 +1,59 @@
 from linkedlist import *
 
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
 
-def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
+        # O(n) solution
+        # find the right node to remove by using 2 pointers
+        # one shifted forwards to detect end 
+        # other one back to be the nth last node
+        dummy = ListNode(0, head)
+        
+        prev = dummy
+        end = dummy.next
+        for i in range(n):
+            end = end.next
 
-    count = 0
-    node = head
-    while node!= None:
-        node = node.next
-        count+=1
-    
-    n = count-n
+        while end != None:
+            prev = prev.next
+            end = end.next
 
-    node = head
-    c = 0
-
-    while c<n:
-        node = node.next
-        c+=1
-    # node is the one to be removed
-
-    prev = head
-    m = 0
-    while m<n-1:
-        prev = prev.next
-        m+=1
-
-    if prev == node:
-    # node to remove is the first one
-        return head.next
-
-    prev.next = node.next
-
-    return head
+        prev.next = prev.next.next
+        return dummy.next
 
 
-test = [1,2,3,4,5]
+        # O(2n) solution
+        # count the length, then find the right node to remove
+        dummy = ListNode(0, head)
 
-head = makeLL(test)
+        count = 0
+        curr = dummy
+        while curr!=None:
+            curr = curr.next
+            count+=1
+        
+        find = count-n
+        prev = dummy
+        remove = dummy.next
 
-print(LL_to_list(removeNthFromEnd(head, 2)))
+        for i in range(find-1):
+            prev = prev.next
+            remove = remove.next
 
-
-
-
-# neetcode solution
-# 2 pointer, end pointer to see when to end iteration
-# use dummy node and n+1 to displace front node
-# so that iteration stops at node before target of deletion
-
-def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
-    dummy = ListNode(0, head)
-    left = dummy
-    right = head
-
-    while n > 0:
-        right = right.next
-        n -= 1
-
-    while right:
-        left = left.next
-        right = right.next
-
-    # delete
-    left.next = left.next.next
-    return dummy.next
+        prev.next = remove.next
+        return dummy.next
 
 
+sol = Solution()
+
+head = toLinkedList([1,2,3,4,5])
+n = 2
+print(toList(sol.removeNthFromEnd(head, n)))
+
+head = toLinkedList([1])
+n = 1
+print(toList(sol.removeNthFromEnd(head, n)))
+
+head = toLinkedList([1,2])
+n = 1
+print(toList(sol.removeNthFromEnd(head, n)))
