@@ -1,64 +1,26 @@
-def lengthOfLongestSubstring(s: str) -> int:
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        l, r = 0, 0
+        curr = set()
+        ret = 0
 
-    if len(s)==1:
-        return 1
-    
-    cmax = 0
-    seen = dict()
-    p = 0
+        while r<len(s):
+            while s[r] in curr:
+                curr.remove(s[l])
+                l+=1
+            curr.add(s[r])
+            r+=1
+            ret = max(ret, len(curr))
 
-    while p<len(s):
+        return ret
 
-        if s[p] in seen.keys():
-            # this ends a substring
-            length = len(seen.keys())
-            if length>cmax:
-                cmax=length
+sol = Solution()
 
-            # reset position to right after first instance of duplicate
-            p = seen[s[p]]+1
-            seen = dict()
+s = "abcabcbb"
+print(sol.lengthOfLongestSubstring(s))
 
-            # THIS IS INCORRECT AND NOT A PROPER SLIDING WINDOW
-        
-        else:
-            seen[s[p]]=p
-            p+=1
+s = "bbbbb"
+print(sol.lengthOfLongestSubstring(s))
 
-        # print(f'{p}   {seen}')
-    
-    # end of iteration substring
-    if len(seen)>cmax:
-        print(seen)
-        return len(seen)
-
-    return cmax
-        
-
-
-# test = "pwwkew"
-test = 'aab'
-test = "dvdf"
-
-print(lengthOfLongestSubstring(test))
-
-
-
-# neetcode solution
-# more concise and proper sliding window
-
-def lengthOfLongestSubstring(self, s: str) -> int:
-    charSet = set()
-    l = 0
-    res = 0
-
-    for r in range(len(s)):
-
-        # slide window until duplicate isnt in the substring
-        while s[r] in charSet:
-            charSet.remove(s[l])
-            l += 1
-        charSet.add(s[r])
-
-        res = max(res, r - l + 1)
-    return res
+s = "pwwkew"
+print(sol.lengthOfLongestSubstring(s))
