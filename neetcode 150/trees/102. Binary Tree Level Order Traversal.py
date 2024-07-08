@@ -1,63 +1,33 @@
 from binarytree import *
+from collections import deque
 
+class Solution:
+    def levelOrder(self, root: TreeNode) -> list[list[int]]:
+        layer = deque([root])
+        ret = []
 
-# BFS with queue like structure
-# O(N) time and space complexity)
+        while layer:
+            new_layer = deque()
+            layer_out = []
+            for node in layer:
+                if not node:
+                    continue
 
+                layer_out.append(node.val)
+                new_layer.append(node.left)
+                new_layer.append(node.right)
+            layer = new_layer
+            if layer_out: ret.append(layer_out)
 
-def levelOrder(root: TreeNode) -> list[list[int]]:    
-    ret = []
-    curr = [root]
-
-    def childrenOf(list):
-        l = []
-        for node in list:
-            if not node:
-                continue
-
-            if node.left!= None:
-                l.append(node.left)
-            if node.right!=None:
-                l.append(node.right)
-        return l
+        return ret
     
-    # while curr not empty, there are more nodes/deeper layers left
-    while curr: 
-        vals = []
-        for node in curr:
-            # if node != None
-            if node:
-                vals.append(node.val)
+sol = Solution()
 
-        # if vals is non-empty
-        if vals:
-            ret.append(vals)
+root = toBinaryTree([3,9,20,None,None,15,7])
+print(sol.levelOrder(root))
 
-        curr = childrenOf(curr)
-    return ret
+root = toBinaryTree([1])
+print(sol.levelOrder(root))
 
-
-
-# neetcode solution
-# using collections.deque (double ended queue)
-
-import collections
-
-def levelOrder(root: TreeNode) -> list[list[int]]:
-    res = []
-    q = collections.deque()
-    if root:
-        q.append(root)
-
-    while q:
-        val = []
-
-        for i in range(len(q)):
-            node = q.popleft()
-            val.append(node.val)
-            if node.left:
-                q.append(node.left)
-            if node.right:
-                q.append(node.right)
-        res.append(val)
-    return res
+root = toBinaryTree([])
+print(sol.levelOrder(root))
