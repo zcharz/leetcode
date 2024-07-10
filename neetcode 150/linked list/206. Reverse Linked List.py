@@ -2,15 +2,11 @@ from linkedlist import *
 
 
 class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
-        if not head:
-            return None
+    def reverseList(self, head: ListNode) -> ListNode:        
+        node = None
+        curr = head
         
-        node = head
-        curr = node.next
-        node.next = None
-        
-        while node and curr:
+        while curr:
             temp = curr.next
 
             curr.next = node

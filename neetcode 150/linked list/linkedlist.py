@@ -6,12 +6,11 @@ class ListNode:
 
 
 def toList(node):
-    if node==None:
-        return []
-    
-    l = [node.val]
-    l.extend(toList(node.next))
-    return l
+    ret = []
+    while node:
+        ret.append(node.val)
+        node = node.next
+    return ret
 
 
 def toLinkedList(l: list) -> ListNode:
