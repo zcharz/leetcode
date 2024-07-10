@@ -1,6 +1,14 @@
 class Solution:
     def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
-        pass
+        stack = []
+        ret = [0 for i in range(len(temperatures))]
+
+        for i, t in enumerate(temperatures):
+            while stack and t>stack[-1][0]:
+                prev = stack.pop()
+                ret[prev[1]] = i-prev[1]
+            stack.append( (t, i) )
+        return ret
 
 
 sol = Solution()
