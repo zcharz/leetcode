@@ -1,33 +1,24 @@
-# since list is unique, sort doesnt matter
-# just iterate once through each element
-# as a different starting point
+class Solution:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
+        ret = []
+        stack = []
 
-# pseudo code:
-# for each length, 
-# backtrack: 
-#   add n
-#   recursive backtrack on that element
-#   pop n
+        def dfs(n):
+            if n==len(nums):
+                ret.append(stack.copy())
+                return
+            
+            # do nothing
+            dfs(n+1)
 
+            # add current number
+            stack.append(nums[n])
+            dfs(n+1)
+            stack.pop()
 
-def subsets(nums: list[int]) -> list[list[int]]:
-    ret = []
-    stack = []
+        dfs(0)
+        return ret
 
-    def backtrack(curr):
-        if curr==len(nums):
-            ret.append(stack.copy())
-            return
-        
-        stack.append(nums[curr])
-        backtrack(curr+1)
-        stack.pop()
-        
-        backtrack(curr+1)
-    
-    backtrack(0)
-
-    return ret
-
-test = [1,2,3]
-print(subsets(test))
+sol = Solution()
+nums = [1,2,3]
+print(sol.subsets(nums))

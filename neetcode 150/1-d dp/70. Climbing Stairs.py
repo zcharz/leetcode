@@ -1,24 +1,25 @@
-def climbStairs(n: int) -> int:
-    dp = [0 for i in range(n+1)]
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        n1, n2 = 0, 1
 
-    dp[0], dp[1] = 1, 1
+        for i in range(n):
+            # new = n1+n2
+            # n1 = n2
+            # n2 = new
 
-    for i in range(2, n+1):
-        dp[i] = dp[i-1]+dp[i-2]
-    
-    return dp[-1]
+            # shorthand with 2 lines
+            # n1 = n1 + n2
+            # n1, n2 = n2, n1
+
+            # shorthand with 1 line
+            n1, n2 = n2, n1+n2
+        return  n2
 
 
-# O(1) space solution
-# since each next number only depends on previous 2,
-# only keep 2/3 numbers at a time, update per iteration
-def climbStairs(n: int) -> int:
-    if n <= 3:
-        return n
-    n1, n2 = 2, 3
+sol = Solution()
 
-    for i in range(4, n + 1):
-        temp = n1 + n2
-        n1 = n2
-        n2 = temp
-    return n2
+n = 2
+print(sol.climbStairs(n))
+
+n = 3
+print(sol.climbStairs(n))

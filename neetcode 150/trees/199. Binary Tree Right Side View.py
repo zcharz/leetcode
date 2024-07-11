@@ -1,32 +1,30 @@
 from binarytree import *
 
-import collections
 
-# BFS 
-# each time add the most right element to the return
-def rightSideView(root: TreeNode) -> list[int]:
-    if not root:
-        return
-    
-    ret = []
-    queue = collections.deque()
-    queue.append(root)
+from collections import deque
 
-    while queue:
-        print()
-        for node in queue:
-            print(node.val, end=' ')
-        
-        c = len(queue)
+class Solution:
+    def rightSideView(self, root: TreeNode) -> list[int]:
+        queue = deque()
+        ret = []
 
-        for i in range(c):
-            node = queue.popleft()
-            if node.left: queue.append(node.left)
-            if node.right: queue.append(node.right)
-            if i==c-1: ret.append(node.val)
+        if root: queue.append(root)
+        while queue:
+            length = len(queue)
+            for i in range(length):
+                node = queue.popleft()                
+                # if last element in layer (right most)
+                if i == length-1: 
+                    ret.append(node.val)
+                if node.left: queue.append(node.left)
+                if node.right: queue.append(node.right)
+        return  ret
 
-    return ret
+sol = Solution()
 
+root = toBinaryTree([1,2,3,None,5,None,4])
+print(sol.rightSideView(root))
 
-root = to_binary_tree([1,2,3,None,5,None,4])
-print(rightSideView(root))
+root = toBinaryTree([1,2])
+print(toList(root))
+print(sol.rightSideView(root))
