@@ -1,26 +1,20 @@
-def plusOne(digits: list[int]) -> list[int]:
+class Solution:
+    def plusOne(self, digits: list[int]) -> list[int]:
+        ind = len(digits)-1
+        carry = 1
 
-    # if list is empty:
-    if not digits:
-        return []
-    
-    digits[len(digits)-1]+=1
+        while carry and ind>=0:
+            digits[ind] = (digits[ind] + carry)%10
+            carry = 1 if digits[ind] == 0 else 0
+            ind-=1
 
-    c = len(digits)-1
-    digits[c]
+        return digits if not carry else [1]+digits
 
 
-    while c>0:
-        if digits[c] == 10:
-            digits[c] = 0
-            digits[c-1]+=1
-            c-=1
-        else:
-            break
+sol = Solution()
 
-    if digits[0] == 10:
-        digits[0] = 0
-        digits = [1] + digits
+digits = [1,2,3]
+print(sol.plusOne(digits))
 
-    return digits
-
+digits = [9]
+print(sol.plusOne(digits))
