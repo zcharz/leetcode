@@ -2,6 +2,7 @@ from linkedlist import *
 
 
 class Solution:
+    # iterative solution
     def reverseList(self, head: ListNode) -> ListNode:        
         node = None
         curr = head
@@ -15,13 +16,19 @@ class Solution:
 
         return node
 
+    # recursive solution
     def reverseList(self, head: ListNode) -> ListNode:
-        if not head:
-            return None
-        
-        # TODO: recursive
+        def helper(node):
+            if not node.next:
+                return node, node
+            head, tail = helper(node.next)
+            tail.next = node
+            tail = tail.next
+            tail.next = None
 
-        return node
+            return head, tail
+
+        return helper(head)[0] if head else None
 
 
 sol = Solution()
