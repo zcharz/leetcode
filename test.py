@@ -2,8 +2,6 @@
 # from binarytree import *
 import collections
 
-hi = dict()
-hi['x'] = 1
+test = 'test'
 
-for i, v in hi.items():
-    print(i, v)
+print(test[0:0])
