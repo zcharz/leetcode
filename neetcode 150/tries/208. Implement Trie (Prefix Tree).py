@@ -1,36 +1,40 @@
 class Node:
     def __init__(self):
-        self.isword = False
+        self.word = False
         self.next = dict()
+
 
 class Trie:
     def __init__(self):
-        self.trie = Node()
+        self.root = Node()
 
     def insert(self, word: str) -> None:
-        node = self.trie
-        for c in word:
-            if c not in node.next:
-                node.next[c] = Node()
-            node = node.next[c]
-        node.isword = True
-
+        node = self.root
+        for s in word:
+            if s not in node.next:
+                node.next[s] = Node()
+            node = node.next[s]
+        node.word = True
+        
 
     def search(self, word: str) -> bool:
-        node = self.trie
-        for c in word:
-            if c not in node.next:
+        node = self.root
+        for s in word:
+            if s not in node.next:
                 return False
-            node = node.next[c]
-        return node.isword
-
+            node = node.next[s]
+        return node.word
 
     def startsWith(self, prefix: str) -> bool:
-        node = self.trie
-        for c in prefix:
-            if c not in node.next:
+        node = self.root
+        for s in prefix:
+            if s not in node.next:
                 return False
-            node = node.next[c]
+            node = node.next[s]
+
+        # implicity that if this node exists, 
+        # there must be children that starts with the prefix
+        # or this prefix is a word
         return True
 
 
@@ -39,3 +43,15 @@ class Trie:
 # obj.insert(word)
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
+
+sol = Trie()
+sol.insert('apple')
+
+# sol.insert('a')
+print(sol.root.next)
+
+
+
+
+# print(sol.startsWith('a'))
+# sol.insert('a')

@@ -2,6 +2,10 @@
 # from binarytree import *
 import collections
 
-test = 'test'
+test = dict()
 
-print(test[0:0])
+for i in range(6):
+    test[i] = str(i)
+
+
+print(test.values())

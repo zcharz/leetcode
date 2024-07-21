@@ -1,52 +1,47 @@
-import collections
+class Solution:
+    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        seen = set()
+        dir = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+        size = 0
 
-def maxAreaOfIsland(grid: list[list[int]]) -> int:
-    max_area = 0
-    neighbors = [(1,0),(-1,0),(0,1),(0,-1)]
-    seen = set()
-    
-    def BFS(i,j):
-        island = collections.deque()
-        island.append( (i,j) )
-        area = 0
-        while island:
-            area+=1
-            land_i, land_j = island.pop()
-            
-            for i,j in neighbors:
-                # if neighbor isnt in bound
-                if not ( 0<=land_i+i<len(grid) and 0<=land_j+j<len(grid[0]) ):
-                    continue
+        def dfs(i,j):
+            count = 0
+            stack = [(i,j)]
+            while stack:
+                i, j = stack.pop()
+                if (i,j) in seen: continue
 
-                # since neighbor is in bound
-                if grid[land_i+i][land_j+j] == 1 and (land_i+i, land_j+j) not in seen:
-                    island.append( (land_i+i, land_j+j) )
-                    seen.add( (land_i+i, land_j+j) )
-        return area
-    
-    for i in range(len(grid)):
-        for j in range(len(grid[0])):
-            if grid[i][j] == 1 and (i,j) not in seen:
-                seen.add((i,j))
-                max_area = max(max_area, BFS(i,j))
+                if (i,j) not in seen:
+                    seen.add((i,j))
+                    count+=1
 
-    return max_area
+                for x, y in dir:
+                    r, c = i+x, j+y
+                    if -1<r<rows and -1<c<cols and grid[r][c] and (r,c) not in seen:
+                        stack.append((r,c))
+                        
+            return count
+
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] and (i,j) not in seen:
+                    size = max(size, dfs(i,j))
+
+        return size
 
 
-grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],
-        [0,0,0,0,0,0,0,1,1,1,0,0,0],
-        [0,1,1,0,1,0,0,0,0,0,0,0,0],
-        [0,1,0,0,1,1,0,0,1,0,1,0,0],
-        [0,1,0,0,1,1,0,0,1,1,1,0,0],
-        [0,0,0,0,0,0,0,0,0,0,1,0,0],
-        [0,0,0,0,0,0,0,1,1,1,0,0,0],
-        [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+sol = Solution()
 
+# grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]
+# print(sol.maxAreaOfIsland(grid))
 
-grid = [[1,1,0,0,0],
-        [1,1,0,0,0],
-        [0,0,0,1,1],
-        [0,0,0,1,1]]
+# grid = [[0,0,0,0,0,0,0,0]]
+# print(sol.maxAreaOfIsland(grid))
 
-
-print(maxAreaOfIsland(grid))
+grid = [
+    [1,1,0,0,0],
+    [1,1,0,0,0],
+    [0,0,0,1,1],
+    [0,0,0,1,1]]
+print(sol.maxAreaOfIsland(grid))
