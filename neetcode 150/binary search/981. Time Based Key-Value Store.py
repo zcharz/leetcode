@@ -1,23 +1,13 @@
 class TimeMap:
 
     def __init__(self):
-        self.arr = []
+        self.times = []
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        if timestamp>len(self.arr):
-            self.arr.extend([[] for i in range(timestamp-len(self.arr))])
-        self.arr[timestamp].append((key, value))
+        return 
 
     def get(self, key: str, timestamp: int) -> str:
-        ret = ''
-        
-        for 
-
-
-        return ret
-
-
-
+        return
 
 
 # Your TimeMap object will be instantiated and called as such:
@@ -26,6 +16,4 @@ class TimeMap:
 # param_2 = obj.get(key,timestamp)
 
 
-
-obj = TimeMap()
-obj.set(key,value,timestamp)
+sol = TimeMap()
