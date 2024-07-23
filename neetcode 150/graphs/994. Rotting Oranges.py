@@ -1,44 +1,37 @@
 import collections
 
-def orangesRotting(grid: list[list[int]]) -> int:
-    c = 0
+class Solution:
+    def orangesRotting(self, grid: list[list[int]]) -> int:
+        queue = collections.deque()
+        seen = set()
+        fresh = 0
 
-    # find all rotten oranges
-    # OR edge case where there are no fresh oranges
-    fresh = 0
-    queue = collections.deque()
-    for i in range(len(grid)):
-        for j in range(len(grid[0])):
-            if grid[i][j] == 2:
-                queue.append((i,j))
-            if grid[i][j] == 1:
-                fresh+=1
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 2:
+                    queue.append((i,j))
+                if grid[i][j]==1: 
+                    fresh+=1
 
-    neighbors = [(1,0),(-1,0),(0,1),(0,-1)]
-    visited = set()
+        # edge case: no oranges at all
+        if not fresh: return 0
 
-    # BFS to convert all fresh oranges to non fresh
-    while queue and fresh>0:
-        c+=1
-        for i in range(len(queue)):
-            rotten = queue.popleft()
-            visited.add(rotten)
+        count = -2
+        while queue: 
+            for n in range(len(queue)):
+                i,j = queue.popleft()
+                if (i,j) in seen or i<0 or i>len(grid)-1 or j<0 or j>len(grid[0])-1 or grid[i][j] == 0: continue
+                if grid[i][j] == 1: fresh-=1
+                seen.add((i,j))
+                queue.extend([(i+1,j),(i-1,j),(i,j+1),(i,j-1)])
+            count+=1
+        return count if not fresh else -1
+    
 
-            for (n,m) in neighbors:
-                x, y = rotten[0]+n, rotten[1]+m
-                
-                # new fresh oranges
-                if (x,y) not in visited and 0<=x<len(grid) and 0<=y<len(grid[0]):
-                    if grid[x][y]==1:
-                        grid[x][y]=2
-                        fresh-=1
-                        queue.append( (rotten[0]+n,rotten[1]+m) )
-
-    return c if fresh == 0 else -1
-
-
+sol = Solution()
 
 grid = [[2,1,1],[1,1,0],[0,1,1]]
-grid = [[0,2]]
-grid = [[2,1,1],[0,1,1],[1,0,1]]
-print(orangesRotting(grid))
+print(sol.orangesRotting(grid))
+
+# grid = [[2,1,1],[0,1,1],[1,0,1]]
+# print(sol.orangesRotting(grid))

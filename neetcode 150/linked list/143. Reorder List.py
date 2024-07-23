@@ -1,30 +1,41 @@
 from linkedlist import *
 
+
 class Solution:
     def reorderList(self, head: ListNode) -> None:
+        slow, fast = head, head
 
-        
-        curr = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
 
-        while curr and curr.next and curr.next.next:
-            seclast = curr
-            while seclast.next.next:
-                seclast = seclast.next
+        head2 = slow.next
+        slow.next = None
+        prev = None
+        while head2: 
+            temp = head2.next
+            head2.next = prev
+            prev = head2
+            head2 = temp
+        head2 = prev
             
-            temp = curr.next
-            curr.next = seclast.next
-            seclast.next = None
-            curr.next.next = temp
-            curr = curr.next.next
-
-        return head
-
+        dummy = ListNode()
+        node = dummy
+        while head or head2: 
+            if head: 
+                node.next = head
+                head = head.next
+                node = node.next
+            if head2:
+                node.next = head2
+                head2 = head2.next
+                node = node.next
+        return dummy.next
+    
 sol = Solution()
 
 head = toLinkedList([1,2,3,4])
-sol.reorderList(head)
-print(toList(head))
+print(toList(sol.reorderList(head)))
 
 head = toLinkedList([1,2,3,4,5])
-sol.reorderList(head)
-print(toList(head))
+print(toList(sol.reorderList(head)))
