@@ -1,20 +1,15 @@
-def minCostClimbingStairs(cost: list[int]) -> int:
-    dp = []
-
-    dp.append(0)
-    dp.append(0)
-
-    for i in range(2, len(cost)+1):
-
-        print(min(dp[i-1]+cost[i-1], dp[i-2]+cost[i-2]))
-        dp.append( min(dp[i-1]+cost[i-1], dp[i-2]+cost[i-2]) )
-
-    print(dp)
-
-    return dp[-1]
+class Solution:
+    def minCostClimbingStairs(self, cost: list[int]) -> int:
+        n1, n2 = 0, 0
+        for c in cost:
+            n1, n2 = n2, min(n1+c, n2+c)
+        return min(n1, n2)
 
 
+sol = Solution()
 
-test = [10,15,20]
+cost = [10,15,20]
+print(sol.minCostClimbingStairs(cost))
 
-print(minCostClimbingStairs(test))
+# cost = [1,100,1,1,1,100,1,1,100,1]
+# print(sol.minCostClimbingStairs(cost))
