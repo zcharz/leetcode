@@ -1,75 +1,45 @@
-import collections
+class Solution:
+    def solve(self, board: list[list[str]]) -> None:
+        row, col = len(board), len(board[0])
+        def dfs(i,j):
+            stack = [(i,j)]
+            while stack:
+                i, j = stack.pop()
+                if -1<i<row and -1<j<col and board[i][j] == 'O':
+                    board[i][j] = 'T'
+                    stack.extend([(i-1, j), (i+1, j), (i, j-1), (i, j+1)])
 
-# idea:
-# O(M-2 * N-2) iteration through all elements in inner 
-# skip elements that are seen
-# if element is O, BFS over element 
+        # iterating through top and bottom edge
+        for i in range(col):
+            if board[0][i] == 'O': 
+                dfs(0,i)
+            if board[row-1][i] == 'O':
+                dfs(row-1, i)
 
-# time complexity: O(MN)
-# iteration through all elements O(MN)
-# since elements are skipped if they are seen
-# worst case replacing all Os to Xs besides border, O(MN)
-# O(N) extra space -> seen set may take entire board
+        # iterating through left and right edge
+        for i in range(row):
+            if board[i][0] == 'O': 
+                dfs(i, 0)
+            if board[i][col-1] == 'O':
+                dfs(i, col-1)
 
-def solve(board: list[list[str]]) -> None:
-    row, col = len(board), len(board[0])
-    
-    if row <3 or col<3:
-        return
+        # replace Os, which will be captured, by X
+        # replcae T, which are safe, by O
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] == 'O':
+                    board[i][j] = 'X'
+                elif board[i][j] == 'T':
+                    board[i][j] = 'O'
 
-    seen = set()
-    neighbors = [(1,0), (-1,0), (0,1), (0,-1)]
+                    
 
-    def BFS(i,j):
-        queue = collections.deque()
-        queue.append((i,j))
-        this = set()
-        flip = True
-        
-        while queue:
-            curr = queue.pop()
-            seen.add(curr)
-            this.add(curr)
+sol = Solution()
 
-            for n,m in neighbors:
-                x,y = curr[0]+n, curr[1]+m
-                edge = False
-                if 0==x or x==row-1 or 0==y or y==col-1:
-                    edge = True
+board = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]
+sol.solve(board)
+print(board)
 
-                # if neighbor is a border O
-                # after finding all adjacent Os, flip 
-                if board[x][y]=='O' and edge:
-                    flip = False
-
-                elif board[curr[0]+n][curr[1]+m]=='O' and (x,y) not in seen:
-                    queue.append( (curr[0]+n, curr[1]+m) )
-
-        if flip:
-            for (n,m) in this:
-                board[n][m] = 'X'
-
-    for i in range(1, row-1):
-        for j in range(1,col-1):
-            if board[i][j] == 'O' and (i,j) not in seen:
-                BFS(i,j)
-
-
-test = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]
-
-solve(test)
-
-for line in test:
-    print(line)
-
-
-
-# neetcode solution
-# rather than change all regions surroudned
-# change all regions except those connected to boarder
-# 2 part algo:
-# scan edge for Os, O(2M+2N)
-# on those Os, find all connected Os and change them to T (temp)
-# change all Os to Xs, O(NM)
-# change all Ts back to Os, O(NM)
-# in place changes, O(1) extra space
+board = [["X"]]
+sol.solve(board)
+print(board)
