@@ -1,26 +1,27 @@
-def partition(s: str) -> list[list[str]]:
-    ret = []
-    stack = []
+class Solution:
+    def partition(self, s: str) -> list[list[str]]:
+        ret, stack = [], []
 
-    def backtrack(start, end):
-        if end==len(s) and s[start:end]==s[start:end][::-1]:
-            stack.append(s[start:end])
-            ret.append(stack.copy())
-            stack.pop()
-            return
-        
-        elif end==len(s):
-            return
+        def dfs(ind):
+            if ind == len(s):
+                ret.append(stack.copy())
+                return
 
-        if s[start:end] == s[start:end][::-1]:
-            stack.append(s[start:end])
-            backtrack(end, end+1)
-            stack.pop()
-        backtrack(start, end+1)
+            for i in range(ind, len(s)):
+                currstr = s[ind:i+1]
+                if currstr == currstr[::-1]:
+                    stack.append(currstr)
+                    dfs(i+1)
+                    stack.pop()
 
-    backtrack(0,1)
-    return ret
+        dfs(0)
+        return ret
 
-test = 'aab'
-print(partition(test))
 
+sol = Solution()
+
+s = 'aab'
+print(sol.partition(s))
+
+s = 'a'
+print(sol.partition(s))

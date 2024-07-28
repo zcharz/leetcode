@@ -2,10 +2,11 @@
 # from binarytree import *
 import collections
 
-test = dict()
+test = [1,2,3,4,5,6]
 
-for i in range(6):
-    test[i] = str(i)
+for num in range(len(test)):
 
+    if test[num] == 3:
+        test.pop(num)
 
-print(test.values())
+print(test)
