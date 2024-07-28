@@ -16,7 +16,6 @@ class Trie:
             node = node.next[s]
         node.word = True
         
-
     def search(self, word: str) -> bool:
         node = self.root
         for s in word:
