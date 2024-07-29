@@ -1,39 +1,14 @@
-
-# CONSTRAINTS:
-# linear runtime -> one pass, can't sort
-# constant extra space -> no extra data structures
-
-
-# O(N) time, O(N) space
-def singleNumber(nums: list[int]) -> int:
-    d = dict()
-    d[1] = set()
-    d[2] = set()
-
-    for n in nums:
-        if n in d[1]:
-            d[1].remove(n)
-            d[2].add(n)
-        else:
-            d[1].add(n)
+class Solution:
+    def singleNumber(self, nums: list[int]) -> int:
+        ret = 0
+        for n in nums:
+            ret = ret ^ n
+        return ret
     
-    return  d[1].pop()
+sol = Solution()
 
-# neetcode solution
-# XOR can be done in any order
-# since theres exactly 2 of each except one, each pair will XOR into 0
-# each individual BIT will have 2 (or multiple of 2)
-# resulting bits will equal the number without duplicate
-def singleNumber(nums: list[int]) -> int:
-    res = 0
-    for n in nums:
-        # ^ -> XOR
-        res = n ^ res
-    return res
+nums = [2,2,1]
+print(sol.singleNumber(nums))
 
-
-
-test = [2,2,1]
-
-
-print(singleNumber(test))
+nums = [4,1,2,1,2]
+print(sol.singleNumber(nums))
