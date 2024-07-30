@@ -1,17 +1,27 @@
-def hammingWeight(n: int) -> int:
-    # O(32) constant time
-    c = 0
-    while n!=0:
-        c+=n%2
-        n = n>>1
-    return c
+class Solution:
+    # O(32) solution
+    def hammingWeight(self, n: int) -> int:
+        count = 0
+        while n:
+            if n&1: count += 1
+            n = n>>1
+        return count
+    
+    # "trick" to get rid of one 1 bit each time
+    def hammingWeight(self, n: int) -> int:
+        count = 0
+        while n:
+            count+=1
+            n = n & (n-1)
+        return count
+    
 
-    # the trick solution
-    # still O(1)
-    c = 0
-    # n!=0
-    while n:
-        c+=1
-        n = n&(n-1) # n &= (n-1)
-        # bitwise and
-    return c
+
+
+sol = Solution()
+
+n = 11
+print(sol.hammingWeight(n))
+
+# n = 128
+# print(sol.hammingWeight(n))
