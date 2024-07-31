@@ -3,5 +3,5 @@
 import collections
 
 test = set([1,2,3,4,5,6])
-
-test.remove(7)
+for i in range(3, 2):
+    print(i)
