@@ -1,26 +1,36 @@
-def letterCombinations(digits: str) -> list[str]:
-    if not len(digits):
-        return []
+class Solution:
+    def letterCombinations(self, digits: str) -> list[str]:
+        if not digits: return []
+        ret, stack = [], []
+        charmap = {
+            '2': ['a', 'b', 'c'],
+            '3': ['d', 'e', 'f'],
+            '4': ['g', 'h', 'i'],
+            '5': ['j', 'k', 'l'],
+            '6': ['m', 'n', 'o'],
+            '7': ['q', 'p', 'r', 's'],
+            '8': ['t', 'u', 'v'],
+            '9': ['w', 'x', 'y', 'z'],
+        }
 
-    letters = {2: {'a', 'b', 'c'}, 3: {'d', 'e', 'f'}, 4: {'g', 'h','i'}, 5: {'l', 'j', 'k'}, 6: {'o', 'm', 'n'}, 7: {'r', 'q', 'p', 's'}, 8: {'t', 'u', 'v'}, 9: {'w', 'x', 'y', 'z'}}
-    print(letters)
+        def dfs(i):
+            if i==len(digits):
+                ret.append(''.join(stack))
+                return
+            
+            for c in charmap[digits[i]]:
+                stack.append(c)
+                dfs(i+1)
+                stack.pop()
 
-    ret = []
-    stack = []
-    c = 0
-
-    def dfs(c):
-        if c==len(digits):
-            ret.append(''.join(stack))
-            return
-
-        for char in letters[int(digits[c])]:
-            stack.append(char)
-            dfs(c+1)
-            stack.pop()
-
-    dfs(c)
-    return ret
+        dfs(0)
+        return ret
 
 
-print(letterCombinations('23'))
+sol = Solution()
+
+digits = '23'
+print(sol.letterCombinations(digits))
+
+digits = '2'
+print(sol.letterCombinations(digits))

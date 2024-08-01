@@ -2,75 +2,59 @@ from binarytree import *
 from collections import deque
 
 class Codec:
-    def serialize(self, root):
-        ret = []
-        
-        def dfs(node):
-            if not node:
-                ret.append('N')
-                return 
-            
-            ret.append(str(node.val))
-            dfs(node.left)
-            dfs(node.right)
-        
-        dfs(root)
-        return ','.join(ret)
 
+    def serialize(self, root):
+        queue = deque([root])
+        ret = []
+
+        while queue:
+            curr = queue.popleft()
+            if curr:
+                ret.append(str(curr.val))
+                queue.append(curr.left)
+                queue.append(curr.right)
+            else:
+                ret.append('.')
+
+        return ' '.join(ret)
+        
 
     def deserialize(self, data):
-        pos = [0]
-        data = data.split(',')
+        data = data.split(' ')
+        data = deque(data)
+        if not data or data[0] == '.': return None
 
-        def recur():
-            if data[pos[0]]=='N':
-                pos[0]+=1
-                return None
+        root = TreeNode(int(data[0]))
+        data.popleft()
+        nodes = deque([root])
 
-            curr = TreeNode(data[pos[0]])
-            pos[0]+=1
-            curr.left = recur()
-            curr.right = recur()
-            return curr
+        while nodes:
+            curr = nodes.popleft()
+            if not curr: continue
+
+            leftval = data.popleft()
+            rightval = data.popleft()
+
+            if leftval != '.': 
+                curr.left = TreeNode(int(leftval))
+                nodes.append(curr.left)
+            if rightval != '.': 
+                curr.right = TreeNode(int(rightval))
+                nodes.append(curr.right)
+
+        return root
         
-        
-            
-        return recur()
-    
-    # level order traversal
-    # doesnt with with gaps of Nones
-    # def serialize(self, root):
-    #     ret = ''
-    #     queue = deque()
-    #     queue.append(root)
-    #     while queue:
-    #         for i in range(len(queue)):
-    #             curr = queue.popleft()
-    #             if curr:
-    #                 queue.append(curr.left)
-    #                 queue.append(curr.right)
-    #                 ret+=str(curr.val)
-    #             else:
-    #                 ret+=' '
-    #     return ret
-    
-    # def deserialize(self, data):
-    #     def recur(c):
-    #         if c<len(data)+1 and data[c-1]!='N':
-    #             return TreeNode(int(data[c-1]), recur(c*2), recur(c*2+1) )
-    #         return None
-    #     return recur(-1)
 
+sol = Codec()
 
-ser = Codec()
-deser = Codec()
-# ans = deser.deserialize(ser.serialize(root))
+root = toBinaryTree([1,2,3,None,None,4,5])
+serial = sol.serialize(root)
+print(serial)
+deserial = sol.deserialize(serial)
+print(sol.serialize(deserial))
 
-li = [1,2,3,None,None,4,5]
-# li = [1,2,3,None,None,4,5,6,7]
-root = to_binary_tree(li)
-string = ser.serialize(root)
-print(string)
-
-ans = deser.deserialize(string)
-print(tree_to_list(ans))
+root = toBinaryTree([])
+serial = sol.serialize(root)
+print(serial)
+deserial = sol.deserialize(serial)
+print(sol.serialize(deserial))
