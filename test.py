@@ -7,6 +7,4 @@ if test: print('yes')
 test = []
 if test: print('yes')
 
-
-def functest():
-    self.bruh = 1
+if -2: print('negative true')

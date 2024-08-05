@@ -1,17 +1,19 @@
-def myPow(x: float, n: int) -> float:
-    def helper(x, c):
-        if n == 0:
-            return 1
-        if x == 0:
-            return x
-        ret = helper(x * x, n//2)
-        return x*ret if c%2 else ret
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        def helper(i):
+            if i == 0: return 1
+            res = helper(i//2)
+            res *= res
+            return res*x if i%2 else res
+        return helper(abs(n)) if n>0 else 1/helper(abs(n))
 
-    ret = helper(x, abs(n))
-    return ret if n>=0 else 1/ret
-    
 
+
+sol = Solution()
 x = 2.00000
 n = 10
+print(sol.myPow(x, n))
 
-print(myPow(x,n))
+# x = 2.00000
+# n = -2
+# print(sol.myPow(x, n))

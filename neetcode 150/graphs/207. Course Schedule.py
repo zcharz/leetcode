@@ -4,9 +4,11 @@
 
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
-        prereq = { i:j for i,j in prerequisites}
-        print(prereq)        
+        pass
 
+
+
+    
 sol = Solution()
 
 numCourses = 2
