@@ -1,21 +1,18 @@
-def reverseBits(n: int) -> int:
-    ret = 0
-    c = 31
-
-    # print(bin(n))
-
-    while n!=0:
-        ret += n%2*2**c
-        c-=1
-        n = n >> 1
-
-    # for i in range(32)
-    #     bit = (n >> i) & 1
-    #     ret += (bit << (31 - i))
-
-    # print(bin(ret))
-    return ret
+class Solution:
+    def reverseBits(self, n: int) -> int:
+        ret, place = 0, 0
+        while n!= 0:
+            if n&1:
+                ret+=2**(31-place)        
+            place+=1
+            n = n>>1
+        return ret
 
 
-n = 43261596
-print(reverseBits(n))
+sol = Solution()
+
+n = 0b00000010100101000001111010011100
+print(sol.reverseBits(n))
+
+n = 0b11111111111111111111111111111101
+print(sol.reverseBits(n))
