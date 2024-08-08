@@ -2,9 +2,9 @@
 # from binarytree import *
 import collections
 
-test = [1,2,3,4,5,6]
-if test: print('yes')
-test = []
-if test: print('yes')
+test =  [i for i in range(10)]
 
-if -2: print('negative true')
+pos = 3
+negpos = pos - len(test)
+
+print(test[pos], test[negpos])
