@@ -1,19 +1,30 @@
-def missingNumber(nums: list[int]) -> int:
-    ret = 0
+# bit manipulation using XOR
+# [0, 3, 1] ^ [0, 1, 2, 3] -> 2
 
-    for i in nums:
-        pass
+# sum(0 to n) - sum(nums)
 
-    return ret
+class Solution:
+    def missingNumber(self, nums: list[int]) -> int:
+        # bit manipulation method
+        res = len(nums)
+        for i in range(len(nums)):
+            res = res ^ i ^ nums[i]
+        return res
 
+    
+        # sum method
+        res = len(nums)
+        for i in range(len(nums)):
+            res = res + i - nums[i]
+        return res
 
+sol = Solution()
 
-# each bit will appear as 1 4 times
-# 000
-# 001
-# 010
-# 011
-# 100
-# 101
-# 110
-# 111
+nums = [3,0,1]
+print(sol.missingNumber(nums))
+
+nums = [0,1]
+print(sol.missingNumber(nums))
+
+nums = [9,6,4,2,3,5,7,0,1]
+print(sol.missingNumber(nums))
