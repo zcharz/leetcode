@@ -1,22 +1,25 @@
-# logic: 
-# since we don't need to return the indicies
-# just have a O(n) one pass keeping the max sum of previous elements
-# if elements are negative, reset to 0 (signifiying not counting the elements in the subarray)
+class Solution:
+    def maxSubArray(self, nums: list[int]) -> int:
+        res = nums[0]
+        curr = 0
 
-def maxSubArray(nums: list[int]) -> int:
-    max_ret = nums[0]
-    curr_sum = 0
+        for n in nums:
+            if curr>0: curr+=n
+            else: curr = n
+            res = max(res, curr)
+        return res
+    
 
-    for i in nums:
-        if curr_sum < 0:
-            curr_sum = 0
-        currSum += i
+sol = Solution()
 
-        max_ret = max(curr_sum, max_ret)
-
-    return max_ret
-
+nums = [-1,0,-2]
+print(sol.maxSubArray(nums))
 
 nums = [-2,1,-3,4,-1,2,1,-5,4]
+print(sol.maxSubArray(nums))
+
+nums = [1]
+print(sol.maxSubArray(nums))
+
 nums = [5,4,-1,7,8]
-print(maxSubArray(nums))
+print(sol.maxSubArray(nums))
