@@ -18,7 +18,7 @@
 
 class Solution:
     def findRedundantConnection(self, edges: list[list[int]]) -> list[int]:
-    
+        pass
 
     # O(n^2) maybe?? wrote this summer 2023 lol idk
     def findRedundantConnection(self, edges: list[list[int]]) -> list[int]:
