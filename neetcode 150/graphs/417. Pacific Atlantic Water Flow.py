@@ -1,43 +1,43 @@
-# idea: 
-# for each value bordering pacific, run WFS (whatever first search)
-# to find all values that can reach this edge
+# reverse thinking
+# from pacific side, bfs/dfs to find all elements which reaches pacific
+# from atlantic side, find all elements which reaches atlantic
 
 class Solution:
     def pacificAtlantic(self, heights: list[list[int]]) -> list[list[int]]:
-        ROWS, COLS = len(heights), len(heights[0])
-        direction = [(-1,0),(1,0),(0,-1),(0,1)]
-        
-        def dfs(input):
-            stack = input
-            seen = set()
+        ROW, COL = len(heights), len(heights[0])
+        pacific, atlantic = set(), set()
+        dir = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
-            while stack:
-                i, j = stack.pop()
-                if (i,j) in seen: continue
-                seen.add((i,j))
+        def dfs(i,j, seen):
+            stack = [(i,j)]
+            while stack: 
+                currx, curry = stack.pop()
+                if (currx, curry) in seen: continue
+                seen.add((currx, curry))
 
-                for r, c in direction:
-                    x, y = i+r, j+c
-                    if -1<x<ROWS and -1<y<COLS and heights[i][j] <= heights[x][y]:
-                        stack.append((x,y))
-            return seen
+                for x, y in dir:
+                    i, j = currx+x, curry+y
+                    if -1<i<ROW and -1<j<COL and heights[i][j]>=heights[currx][curry]:
+                        stack.append((i,j))
 
-        pacificstack, atlanticstack = [],[]
-        for i in range(ROWS):
-            pacificstack.append((i, 0))
-            atlanticstack.append((i, COLS-1))
-        for i in range(COLS):
-            pacificstack.append((0, i))
-            atlanticstack.append((ROWS-1, i))
+        # first element in each row (first col) for pacific
+        # last element in each row (last col) for atlantic
+        for i in range(ROW):
+            dfs(i, 0, pacific)
+            dfs(i, COL-1, atlantic)
 
-        pacific = dfs(pacificstack)
-        atlantic = dfs(atlanticstack)
+        # all elements in first row for pacific
+        # all elements in last row for atlantic
+        for i in range(COL):
+            dfs(0, i, pacific)
+            dfs(ROW-1, i, atlantic)
+
         return list(pacific.intersection(atlantic))
 
 
 sol = Solution()
-# heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
-# print(sol.pacificAtlantic(heights))
+heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+print(sol.pacificAtlantic(heights))
 
 heights = [[1,1],[1,1],[1,1]]
 print(sol.pacificAtlantic(heights))
