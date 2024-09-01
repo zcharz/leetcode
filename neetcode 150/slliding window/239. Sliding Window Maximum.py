@@ -1,12 +1,23 @@
+from collections import deque
+
 class Solution:
     def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
-        curr = set(nums[0:k+1])
         ret = []
+        queue = deque()
+        l = r = 0
 
-        for l in range(len(nums)-k+1):
+        while r<len(nums):
 
-            # HOW TO MAINTAIN MAX OR NEXT MAX IN O(1) TIME
-            ret.append(max(nums[l:l+k]))
+            while queue and nums[r] > nums[queue[-1]]:
+                queue.pop()
+            queue.append(r)
+
+            if l > queue[0]: queue.popleft()
+            
+            if (r + 1) >= k: 
+                ret.append(nums[queue[0]])
+                l+=1
+            r+=1
 
         return ret
 
