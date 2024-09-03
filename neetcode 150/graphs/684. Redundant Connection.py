@@ -14,8 +14,6 @@
 # "last edge that's redundant" doesn't matter because only 1 edge is redundant
 
 
-
-
 class Solution:
     def findRedundantConnection(self, edges: list[list[int]]) -> list[int]:
         pass
