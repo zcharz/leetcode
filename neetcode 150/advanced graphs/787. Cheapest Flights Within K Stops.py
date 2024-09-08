@@ -5,24 +5,10 @@
 
 class Solution:
     def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
-        flights.sort(key=lambda x: x[2])
         adjlist = {i:[] for i in range(n)}
         for f in flights: adjlist[f[0]].append((f[1],f[2]))
-        seen = set()
-
-        def dfs(curr, currcost, stops):
-            if curr == dst: return currcost
-            if stops > k: return -1
-
-            seen.add(curr)
-            for destination, cost in adjlist[curr]:
-                if destination in seen: continue
-                endcost = dfs(destination, currcost+cost, stops+1)
-                if endcost != -1: return endcost
-            seen.remove(curr)
-            return -1
-
-        return dfs(src, 0, 0)
+      
+        for i in len(adjlist):
     
 
 sol = Solution()
