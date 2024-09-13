@@ -1,14 +1,27 @@
-# modified DFS with number of stops occured already
-#   times out
-
-# dijkstras from src, return distance[dst]
+import heapq
 
 class Solution:
     def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
-        adjlist = {i:[] for i in range(n)}
-        for f in flights: adjlist[f[0]].append((f[1],f[2]))
-      
-        for i in len(adjlist):
+        adjacency_list = {i:[] for i in range(n)}
+        for f in flights: adjacency_list[f[0]].append((f[1],f[2]))
+
+        minheap = [(0, 0, src)]
+        dist = {vertex:float('inf') for vertex in adjacency_list}
+        dist[src] = 0
+
+        while minheap:
+            curr_stops, curr_dist, curr_vertex = heapq.heappop(minheap)
+
+            for next_vertex, weight in adjacency_list[curr_vertex]:
+                if not dist[next_vertex] > curr_dist + weight: continue
+                if next_vertex == dst and curr_stops <= k:
+                    dist[next_vertex] = curr_dist + weight
+                elif curr_stops < k:
+                    dist[next_vertex] = curr_dist + weight
+                    heapq.heappush(minheap, (curr_stops+1, dist[next_vertex], next_vertex))
+        
+        return dist[dst] if dist[dst] != float('inf') else -1
+        
     
 
 sol = Solution()
