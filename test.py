@@ -2,6 +2,6 @@
 # from binarytree import *
 import collections
 
-vals = []
-
-print(min(vals))
+test = [1,2,3,4,5]
+print(test.pop())
+print(test)
