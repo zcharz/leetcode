@@ -1,20 +1,29 @@
-# idea: if tank < 0, this cannot be starting point
-# since a solution alawys exists, if any starting point
+# if sum(gas) < sum(cost), there cannot be a solution
+# else there must be a solution
+
+# since a solution exists, 
+# if any starting point
 # can iterate to the end of the list without being negative
-# it must be the solution (??)
+# it must be the solution
+# thus iterate from the start 
+# where if the current running sum becomes less than 0
+# the start must be after this point
+#   greedily, since total gas > total cost, 
+#   if the first section is negative, the back must have some start value
+#   such that the excess gas covers the first section 
 
 
 class Solution:
     def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:
-        if sum(gas)<sum(cost): return -1
-        tank, start = 0, 0
-        for i in range(len(gas)):
-            tank += gas[i]-cost[i]
-            if tank<0:
-                tank = 0
-                start = i+1
-        return start
+        if sum(gas) < sum(cost): return -1
+        start, curr = 0, 0
 
+        for i in range(len(gas)):
+            curr = curr + gas[i] - cost[i]
+            if curr < 0: 
+                start = i+1
+                curr = 0
+        return start
 
 
 

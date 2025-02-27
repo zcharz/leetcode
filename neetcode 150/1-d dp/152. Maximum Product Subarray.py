@@ -1,6 +1,13 @@
 class Solution:
     def maxProduct(self, nums: list[int]) -> int:
-        pass
+        
+        # iterate once
+        # running tracker of current
+        # running tracker of max
+
+        # current 
+        return
+
 
 sol = Solution()
 
